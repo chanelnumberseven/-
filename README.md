@@ -6,7 +6,8 @@
 ```bash
   
   // 后台返回数据格式{data:null}  
-  const {data=[]}=await request('test.json');  
+  const {data=[]}=await request('test.json');
+  
   // null 而不是 []
   console.log(data)
   
