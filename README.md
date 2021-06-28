@@ -1,29 +1,42 @@
 # 工作问题及解决方案汇总
 ## 关于解构赋值默认值被null（后台数据）覆盖的问题
 
-示例：
-
+示范
 ```tsx
-  
   // 后台返回数据格式{data:null}  
   const {data=[]} = await request('test.json');
   
   // null 而不是 []
   console.log(data)
-  
 ```
 
-解决方案：对request的返回数据的解析进行设置,过滤掉null值改为undefined
-
+当然完全可以这么写
 ```tsx
+  //  后台返回数据格式{data:null}  
+  const response = await request('test.json');
+  const data = reponse?.data ?? [];
   
-  // 可以对自己的请求插件进行配置如何解析后台返回的json数据    
-  const {data=[]} = JSON.parse('{"data":null}',(key,value)=>value??undefined);  
-    
-  // 返回结果[]    
+  // 返回结果 []
   console.log(data)
-  
 ```
+
+这样写，感觉代码很不优雅，不如结构赋值简便，特别当你要获取多个变量的时候
+```tsx
+const response = await request('test.json');
+const data1 = reponse?.data1 ?? [];
+const data2 = reponse?.data2 ?? [];
+const data3 = reponse?.data3 ?? [];
+```
+
+ 解决方案：采用逻辑空赋值运算符（??=）
+```tsx
+  // 后台返回数据格式{data:null}  
+  const {data??=[]} = await request('test.json');
+  
+  // 返回结果 []
+  console.log(data)
+```
+
 ## 如何用css3做抛物线动画
 
 从力学角度上来看，css3其实提供了描述物体运动的六个维度（x,y,z轴的平移和旋转），有了这六个维度，可以描绘一个物体的任何运动状态；比如工作中遇到这样一个问题：当用户添加一个商品时，如何让商品做一个抛物线动画；从物理学角度分析，抛物线运动其实是水平方向的移动和垂直方向的匀加速运动形成的复合运动；实现方案如下：
