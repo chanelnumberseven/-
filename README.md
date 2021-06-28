@@ -1,41 +1,4 @@
 # 工作问题及解决方案汇总
-## 逻辑空赋值运算符 (??=)与结构赋值
-
-示范
-```tsx
-  // 后台返回数据格式{data:null}  
-  const {data=[]} = await request('test.json');
-  
-  // null 而不是 []
-  console.log(data)
-```
-
-当然完全可以这么写
-```tsx
-  //  后台返回数据格式{data:null}  
-  const response = await request('test.json');
-  const data = reponse?.data ?? [];
-  
-  // 返回结果 []
-  console.log(data)
-```
-
-这样写，感觉代码很不优雅，不如结构赋值简便，特别当你要获取多个变量的时候
-```tsx
-const response = await request('test.json');
-const data1 = reponse?.data1 ?? [];
-const data2 = reponse?.data2 ?? [];
-const data3 = reponse?.data3 ?? [];
-```
-
- 解决方案：采用逻辑空赋值运算符（??=）
-```tsx
-  // 后台返回数据格式{data:null}  
-  const {data??=[]} = await request('test.json');
-  
-  // 返回结果 []
-  console.log(data)
-```
 
 ## 如何用css3做抛物线动画
 
